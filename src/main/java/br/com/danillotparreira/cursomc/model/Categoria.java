@@ -2,7 +2,6 @@ package br.com.danillotparreira.cursomc.model;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +18,10 @@ public class Categoria implements Serializable {
   private String nome;
 
   public Categoria() {}
+
+  public Categoria(String nome) {
+    this.nome = nome;
+  }
 
   public Categoria(Integer id, String nome) {
     this.id = id;
