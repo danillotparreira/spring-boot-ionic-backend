@@ -1,8 +1,12 @@
 package br.com.danillotparreira.cursomc;
 
 import br.com.danillotparreira.cursomc.model.Categoria;
+import br.com.danillotparreira.cursomc.model.Cidade;
+import br.com.danillotparreira.cursomc.model.Estado;
 import br.com.danillotparreira.cursomc.model.Produto;
 import br.com.danillotparreira.cursomc.repositories.CategoriaRepository;
+import br.com.danillotparreira.cursomc.repositories.CidadeRepository;
+import br.com.danillotparreira.cursomc.repositories.EstadoRepository;
 import br.com.danillotparreira.cursomc.repositories.ProdutoRepository;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,12 @@ public class CursomcApplication implements CommandLineRunner {
   @Autowired
   private ProdutoRepository produtoRepository;
 
+  @Autowired
+  private EstadoRepository estadoRepository;
+
+  @Autowired
+  private CidadeRepository cidadeRepository;
+
   @Override
   public void run(String... args) throws Exception {
     Categoria cat1 = new Categoria("Informática");
@@ -42,5 +52,18 @@ public class CursomcApplication implements CommandLineRunner {
 
     categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
     produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+
+    Estado est1 = new Estado("Minas Gerais");
+    Estado est2 = new Estado("São Paulo");
+
+    Cidade c1 = new Cidade("Uberlândia", est1);
+    Cidade c2 = new Cidade("São Paulo", est2);
+    Cidade c3 = new Cidade("Campinas", est2);
+
+    est1.getCidades().addAll(Arrays.asList(c1));
+    est2.getCidades().addAll(Arrays.asList(c2, c3));
+
+    estadoRepository.saveAll(Arrays.asList(est1, est2));
+    cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
   }
 }
