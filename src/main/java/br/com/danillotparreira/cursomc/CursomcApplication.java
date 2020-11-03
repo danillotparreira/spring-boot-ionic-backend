@@ -2,10 +2,15 @@ package br.com.danillotparreira.cursomc;
 
 import br.com.danillotparreira.cursomc.model.Categoria;
 import br.com.danillotparreira.cursomc.model.Cidade;
+import br.com.danillotparreira.cursomc.model.Cliente;
+import br.com.danillotparreira.cursomc.model.Endereco;
 import br.com.danillotparreira.cursomc.model.Estado;
 import br.com.danillotparreira.cursomc.model.Produto;
+import br.com.danillotparreira.cursomc.model.enums.TipoCliente;
 import br.com.danillotparreira.cursomc.repositories.CategoriaRepository;
 import br.com.danillotparreira.cursomc.repositories.CidadeRepository;
+import br.com.danillotparreira.cursomc.repositories.ClienteRepository;
+import br.com.danillotparreira.cursomc.repositories.EnderecoRepository;
 import br.com.danillotparreira.cursomc.repositories.EstadoRepository;
 import br.com.danillotparreira.cursomc.repositories.ProdutoRepository;
 import java.util.Arrays;
@@ -33,6 +38,12 @@ public class CursomcApplication implements CommandLineRunner {
 
   @Autowired
   private CidadeRepository cidadeRepository;
+
+  @Autowired
+  private ClienteRepository clienteRepository;
+
+  @Autowired
+  private EnderecoRepository enderecoRepository;
 
   @Override
   public void run(String... args) throws Exception {
@@ -65,5 +76,36 @@ public class CursomcApplication implements CommandLineRunner {
 
     estadoRepository.saveAll(Arrays.asList(est1, est2));
     cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+
+    Cliente cli1 = new Cliente(
+      "Maria Silva",
+      "maria@gmail.com",
+      "36378912377",
+      TipoCliente.PESSOA_FISICA
+    );
+    cli1.addTelefone("27363323").addTelefone("98838393");
+
+    Endereco e1 = new Endereco(
+      "Rua Flores",
+      "300",
+      "Apt 303",
+      "Jardim",
+      "38220834",
+      c1,
+      cli1
+    );
+    Endereco e2 = new Endereco(
+      "Avenida Matos",
+      "105",
+      "Sala 800",
+      "Centro",
+      "38777012",
+      c2,
+      cli1
+    );
+    cli1.enderecos(e1, e2);
+
+    clienteRepository.save(cli1);
+    enderecoRepository.saveAll(Arrays.asList(e1, e2));
   }
 }

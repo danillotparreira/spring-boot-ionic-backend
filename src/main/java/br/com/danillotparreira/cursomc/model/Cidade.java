@@ -60,6 +60,21 @@ public class Cidade implements Serializable {
     this.estado = estado;
   }
 
+  public Cidade id(Integer id) {
+    this.id = id;
+    return this;
+  }
+
+  public Cidade nome(String nome) {
+    this.nome = nome;
+    return this;
+  }
+
+  public Cidade estado(Estado estado) {
+    this.estado = estado;
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (o == this) return true;

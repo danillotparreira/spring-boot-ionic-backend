@@ -50,6 +50,14 @@ public class Estado implements Serializable {
     this.nome = nome;
   }
 
+  public List<Cidade> getCidades() {
+    return this.cidades;
+  }
+
+  public void setCidades(List<Cidade> cidades) {
+    this.cidades = cidades;
+  }
+
   public Estado id(Integer id) {
     this.id = id;
     return this;
@@ -60,12 +68,14 @@ public class Estado implements Serializable {
     return this;
   }
 
-  public List<Cidade> getCidades() {
-    return this.cidades;
+  public Estado cidades(List<Cidade> cidades) {
+    this.cidades = cidades;
+    return this;
   }
 
-  public void setCidades(List<Cidade> cidades) {
-    this.cidades = cidades;
+  public Estado addCidade(Cidade cidade) {
+    this.cidades.add(cidade);
+    return this;
   }
 
   @Override

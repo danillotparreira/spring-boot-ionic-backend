@@ -1,17 +1,15 @@
 package br.com.danillotparreira.cursomc.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Categoria implements Serializable {
@@ -62,6 +60,32 @@ public class Categoria implements Serializable {
     this.produtos = produtos;
   }
 
+  public Categoria(Integer id, String nome, List<Produto> produtos) {
+    this.id = id;
+    this.nome = nome;
+    this.produtos = produtos;
+  }
+
+  public Categoria id(Integer id) {
+    this.id = id;
+    return this;
+  }
+
+  public Categoria nome(String nome) {
+    this.nome = nome;
+    return this;
+  }
+
+  public Categoria produtos(List<Produto> produtos) {
+    this.produtos = produtos;
+    return this;
+  }
+
+  public Categoria addProduto(Produto produto) {
+    this.produtos.add(produto);
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (o == this) return true;
@@ -75,5 +99,22 @@ public class Categoria implements Serializable {
   @Override
   public int hashCode() {
     return Objects.hashCode(id);
+  }
+
+  @Override
+  public String toString() {
+    return (
+      "{" +
+      " id='" +
+      getId() +
+      "'" +
+      ", nome='" +
+      getNome() +
+      "'" +
+      ", produtos='" +
+      getProdutos() +
+      "'" +
+      "}"
+    );
   }
 }

@@ -1,10 +1,10 @@
 package br.com.danillotparreira.cursomc.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Produto implements Serializable {
@@ -72,6 +70,31 @@ public class Produto implements Serializable {
 
   public void setCategorias(List<Categoria> categorias) {
     this.categorias = categorias;
+  }
+
+  public Produto id(Integer id) {
+    this.id = id;
+    return this;
+  }
+
+  public Produto nome(String nome) {
+    this.nome = nome;
+    return this;
+  }
+
+  public Produto preco(Double preco) {
+    this.preco = preco;
+    return this;
+  }
+
+  public Produto categorias(List<Categoria> categorias) {
+    this.categorias = categorias;
+    return this;
+  }
+
+  public Produto addCategoria(Categoria categoria) {
+    this.categorias.add(categoria);
+    return this;
   }
 
   @Override
