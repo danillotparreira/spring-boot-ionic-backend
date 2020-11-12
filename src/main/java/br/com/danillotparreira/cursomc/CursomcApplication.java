@@ -1,10 +1,19 @@
 package br.com.danillotparreira.cursomc;
 
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import br.com.danillotparreira.cursomc.model.Categoria;
 import br.com.danillotparreira.cursomc.model.Cidade;
 import br.com.danillotparreira.cursomc.model.Cliente;
 import br.com.danillotparreira.cursomc.model.Endereco;
 import br.com.danillotparreira.cursomc.model.Estado;
+import br.com.danillotparreira.cursomc.model.ItemPedido;
 import br.com.danillotparreira.cursomc.model.Pagamento;
 import br.com.danillotparreira.cursomc.model.PagamentoComBoleto;
 import br.com.danillotparreira.cursomc.model.PagamentoComCartao;
@@ -17,15 +26,10 @@ import br.com.danillotparreira.cursomc.repositories.CidadeRepository;
 import br.com.danillotparreira.cursomc.repositories.ClienteRepository;
 import br.com.danillotparreira.cursomc.repositories.EnderecoRepository;
 import br.com.danillotparreira.cursomc.repositories.EstadoRepository;
+import br.com.danillotparreira.cursomc.repositories.ItemPedidoRepository;
 import br.com.danillotparreira.cursomc.repositories.PagamentoRepository;
 import br.com.danillotparreira.cursomc.repositories.PedidoRepository;
 import br.com.danillotparreira.cursomc.repositories.ProdutoRepository;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
@@ -58,6 +62,9 @@ public class CursomcApplication implements CommandLineRunner {
 
   @Autowired
   private PagamentoRepository pagamentoRepository;
+
+  @Autowired
+  private ItemPedidoRepository itemPedidoRepository;
 
   @Override
   public void run(String... args) throws Exception {
@@ -141,5 +148,19 @@ public class CursomcApplication implements CommandLineRunner {
     pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 
     pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+
+    ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+    ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+    ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+    p1.getItens().addAll(Arrays.asList(ip1));
+    p3.getItens().addAll(Arrays.asList(ip2));
+
+    ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+    ped2.getItens().addAll(Arrays.asList(ip3));
+    p2.getItens().addAll(Arrays.asList(ip3));
+    
+
+    itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+
   }
 }
