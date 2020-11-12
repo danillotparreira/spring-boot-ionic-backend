@@ -3,13 +3,13 @@ Projeto realizado através do curso da udemy com o professor Nelio Alves
 
 Neste projeto é disponibilizado os seguintes recursos REST
 
-/categorias
-/categorias/{id}
+* /categorias
+* /categorias/{id}
 
-/clientes
-/clientes/{id}
+* /clientes
+* /clientes/{id}
 
-/pedidos/{id}
+* /pedidos/{id}
 
 ## Diagrama UML do projeto.
 
