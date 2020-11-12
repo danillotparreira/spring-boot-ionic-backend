@@ -5,14 +5,22 @@ import br.com.danillotparreira.cursomc.model.Cidade;
 import br.com.danillotparreira.cursomc.model.Cliente;
 import br.com.danillotparreira.cursomc.model.Endereco;
 import br.com.danillotparreira.cursomc.model.Estado;
+import br.com.danillotparreira.cursomc.model.Pagamento;
+import br.com.danillotparreira.cursomc.model.PagamentoComBoleto;
+import br.com.danillotparreira.cursomc.model.PagamentoComCartao;
+import br.com.danillotparreira.cursomc.model.Pedido;
 import br.com.danillotparreira.cursomc.model.Produto;
+import br.com.danillotparreira.cursomc.model.enums.EstadoPagamento;
 import br.com.danillotparreira.cursomc.model.enums.TipoCliente;
 import br.com.danillotparreira.cursomc.repositories.CategoriaRepository;
 import br.com.danillotparreira.cursomc.repositories.CidadeRepository;
 import br.com.danillotparreira.cursomc.repositories.ClienteRepository;
 import br.com.danillotparreira.cursomc.repositories.EnderecoRepository;
 import br.com.danillotparreira.cursomc.repositories.EstadoRepository;
+import br.com.danillotparreira.cursomc.repositories.PagamentoRepository;
+import br.com.danillotparreira.cursomc.repositories.PedidoRepository;
 import br.com.danillotparreira.cursomc.repositories.ProdutoRepository;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -44,6 +52,12 @@ public class CursomcApplication implements CommandLineRunner {
 
   @Autowired
   private EnderecoRepository enderecoRepository;
+
+  @Autowired
+  private PedidoRepository pedidoRepository;
+
+  @Autowired
+  private PagamentoRepository pagamentoRepository;
 
   @Override
   public void run(String... args) throws Exception {
@@ -83,7 +97,7 @@ public class CursomcApplication implements CommandLineRunner {
       "36378912377",
       TipoCliente.PESSOA_FISICA
     );
-    cli1.addTelefone("27363323").addTelefone("98838393");
+    cli1.telefones("27363323", "98838393");
 
     Endereco e1 = new Endereco(
       "Rua Flores",
@@ -107,5 +121,25 @@ public class CursomcApplication implements CommandLineRunner {
 
     clienteRepository.save(cli1);
     enderecoRepository.saveAll(Arrays.asList(e1, e2));
+
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+    Pedido ped1 = new Pedido(sdf.parse("30/09/2020 10:32"), cli1, e1);
+    Pagamento pagto1 = new PagamentoComCartao(EstadoPagamento.QUITADO, ped1, 6);
+    ped1.pagamento(pagto1);
+
+    Pedido ped2 = new Pedido(sdf.parse("10/10/2020 19:35"), cli1, e2);
+    Pagamento pagto2 = new PagamentoComBoleto(
+      EstadoPagamento.PENDENTE,
+      ped2,
+      sdf.parse("20/10/2020 00:00"),
+      null
+    );
+    ped2.pagamento(pagto2);
+
+    cli1.pedidos(ped1, ped2);
+    pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+
+    pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
   }
 }

@@ -1,7 +1,5 @@
 package br.com.danillotparreira.cursomc.model;
 
-import br.com.danillotparreira.cursomc.model.enums.TipoCliente;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -16,6 +15,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import br.com.danillotparreira.cursomc.model.enums.TipoCliente;
 
 @Entity
 public class Cliente implements Serializable {
@@ -38,6 +41,9 @@ public class Cliente implements Serializable {
   @ElementCollection
   @CollectionTable(name = "TELEFONE")
   private Set<String> telefones = new HashSet<>();
+
+  @OneToMany(mappedBy = "cliente")
+  private List<Pedido> pedidos = new ArrayList<>();
 
   public Cliente() {}
 
@@ -109,9 +115,12 @@ public class Cliente implements Serializable {
     this.telefones = telefones;
   }
 
-  public Cliente id(Integer id) {
-    this.id = id;
-    return this;
+  public List<Pedido> getPedidos() {
+    return this.pedidos;
+  }
+
+  public void setPedidos(List<Pedido> pedidos) {
+    this.pedidos = pedidos;
   }
 
   public Cliente nome(String nome) {
@@ -149,13 +158,18 @@ public class Cliente implements Serializable {
     return this;
   }
 
-  public Cliente telefones(Set<String> telefones) {
-    this.telefones = telefones;
+  public Cliente telefones(String... telefones) {
+    this.telefones.addAll(Arrays.asList(telefones));
     return this;
   }
 
-  public Cliente addTelefone(String telefone) {
-    this.telefones.add(telefone);
+  public Cliente pedidos(List<Pedido> pedidos) {
+    this.pedidos = pedidos;
+    return this;
+  }
+
+  public Cliente pedidos(Pedido... pedidos) {
+    this.pedidos.addAll(Arrays.asList(pedidos));
     return this;
   }
 
