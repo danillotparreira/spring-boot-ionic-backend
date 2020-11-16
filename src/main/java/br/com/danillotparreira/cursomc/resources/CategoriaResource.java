@@ -6,6 +6,9 @@ import br.com.danillotparreira.cursomc.services.CategoriaService;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -56,10 +59,11 @@ public class CategoriaResource {
   }
 
   @PostMapping
-  public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
-    if (obj.getId() != null) {
+  public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
+    if (objDTO.getId() != null) {
       return ResponseEntity.badRequest().build();
     }
+    Categoria obj = service.fromDTO(objDTO);
     obj = service.insert(obj);
     URI uri = ServletUriComponentsBuilder
       .fromCurrentRequest()
@@ -71,10 +75,11 @@ public class CategoriaResource {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Void> update(
-    @RequestBody Categoria obj,
+  public ResponseEntity<Void> update(@Valid 
+    @RequestBody CategoriaDTO objDTO,
     @PathVariable Integer id
   ) {
+    Categoria obj = service.fromDTO(objDTO);
     obj.setId(id);
     obj = service.update(obj);
     return ResponseEntity.noContent().build();
