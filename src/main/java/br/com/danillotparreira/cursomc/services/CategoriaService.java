@@ -10,16 +10,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CategoriaService {
+
   @Autowired
-  private CategoriaRepository categoriaRepository;
+  private CategoriaRepository repository;
 
   public List<Categoria> findAll() {
-    return categoriaRepository.findAll();
+    return repository.findAll();
   }
 
   public Categoria findById(Integer id) {
-    Optional<Categoria> categoriaOptional = categoriaRepository.findById(id);
-    return categoriaOptional.orElseThrow(
+    Optional<Categoria> obj = repository.findById(id);
+    return obj.orElseThrow(
       () ->
         new ObjectNotFoundException(
           "Objeto não encontrado! Id " +
@@ -30,7 +31,7 @@ public class CategoriaService {
     );
   }
 
-  public Categoria save(Categoria categoria) {
-    return categoriaRepository.save(categoria);
+  public Categoria insert(Categoria obj) {
+    return obj.getId() == null ? repository.save(obj) : null;
   }
 }
