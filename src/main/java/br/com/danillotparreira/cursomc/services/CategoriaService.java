@@ -34,4 +34,9 @@ public class CategoriaService {
   public Categoria insert(Categoria obj) {
     return obj.getId() == null ? repository.save(obj) : null;
   }
+
+  public Categoria update(Categoria obj) {
+    this.findById(obj.getId());
+    return repository.save(obj);
+  }
 }
