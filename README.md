@@ -4,7 +4,7 @@ Projeto realizado através do curso da udemy com o professor Nelio Alves
 Neste projeto é disponibilizado os seguintes recursos REST
 
 ## Recursos de Categorias 
-ENDPOINT | METODO | DESCRIÇÃO | PARAMETROS
+ENDPOINT | METODO | DESCRIÇÃO | PARÂMETROS
 ---------|--------|-----------|-----------
 /categorias|GET| Busca todas categorias existentes | ---
 /categorias/page | GET | Busca as categorias com paginação, por padrão inicia na página 0, com 24 dados, ordenado por nome e ordenado de forma crescente | <b>page</b> - página atual iniciando com 0, padrão 0; <b>linesPerPage</b> - resultado da página minimo 1, padrão 24; <b>orderBy</b> - ordenação do resultado, padrão por nome; <b>direction</b> - Crescente ou decrescente (ASC ou DESC), padrão ASC.
@@ -14,13 +14,13 @@ ENDPOINT | METODO | DESCRIÇÃO | PARAMETROS
 /categorias/{id} | DELETE | Deleta uma categoria já existente com base no ID | ---
 
 ## Recursos de Cliente 
-ENDPOINT | METODO | DESCRIÇÃO | PARAMETROS
+ENDPOINT | METODO | DESCRIÇÃO | PARÂMETROS
 ---------|--------|-----------|-----------
 /clientes | GET| |
 /clientes/{id} | GET | |
 
 ## Recursos de Pedidos 
-ENDPOINT | METODO | DESCRIÇÃO | PARAMETROS
+ENDPOINT | METODO | DESCRIÇÃO | PARÂMETROS
 ---------|--------|-----------|-----------
 /pedidos/{id} | GET ||
 
