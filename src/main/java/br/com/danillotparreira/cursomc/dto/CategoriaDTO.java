@@ -14,11 +14,11 @@ public class CategoriaDTO implements Serializable {
 
   private Integer id;
 
-  @NotEmpty(message = "Preenchimento obrigatório")
+  @NotEmpty(message = "Preenchimento do nome obrigatório")
   @Length(
     min = 5,
     max = 80,
-    message = "Tamanho deve ser entre 5 a 80 caracteres."
+    message = "Tamanho do nome deve ser entre 5 a 80 caracteres."
   )
   private String nome;
 
