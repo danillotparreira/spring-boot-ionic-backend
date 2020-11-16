@@ -1,12 +1,16 @@
 package br.com.danillotparreira.cursomc.services;
 
-import br.com.danillotparreira.cursomc.model.Categoria;
-import br.com.danillotparreira.cursomc.repositories.CategoriaRepository;
-import br.com.danillotparreira.cursomc.services.exceptions.ObjectNotFoundException;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import br.com.danillotparreira.cursomc.model.Categoria;
+import br.com.danillotparreira.cursomc.repositories.CategoriaRepository;
+import br.com.danillotparreira.cursomc.services.exceptions.DataIntegrityException;
+import br.com.danillotparreira.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -38,5 +42,14 @@ public class CategoriaService {
   public Categoria update(Categoria obj) {
     this.findById(obj.getId());
     return repository.save(obj);
+  }
+
+  public void delete(Integer id) {
+    this.findById(id);
+    try{
+      repository.deleteById(id);
+    }catch(DataIntegrityViolationException e){
+      throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos.");
+    }
   }
 }
