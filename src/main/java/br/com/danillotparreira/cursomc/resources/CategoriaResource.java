@@ -1,8 +1,11 @@
 package br.com.danillotparreira.cursomc.resources;
 
+import br.com.danillotparreira.cursomc.dto.CategoriaDTO;
 import br.com.danillotparreira.cursomc.model.Categoria;
 import br.com.danillotparreira.cursomc.services.CategoriaService;
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,8 +26,13 @@ public class CategoriaResource {
   private CategoriaService service;
 
   @GetMapping
-  public ResponseEntity<?> findAll() {
-    return ResponseEntity.ok(service.findAll());
+  public ResponseEntity<List<CategoriaDTO>> findAll() {
+    List<Categoria> list = service.findAll();
+    List<CategoriaDTO> listDto = list
+      .stream()
+      .map(obj -> new CategoriaDTO(obj))
+      .collect(Collectors.toList());
+    return ResponseEntity.ok(listDto);
   }
 
   @GetMapping("/{id}")
