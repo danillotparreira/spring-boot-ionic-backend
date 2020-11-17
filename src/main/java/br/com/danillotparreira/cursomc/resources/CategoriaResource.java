@@ -1,8 +1,5 @@
 package br.com.danillotparreira.cursomc.resources;
 
-import br.com.danillotparreira.cursomc.dto.CategoriaDTO;
-import br.com.danillotparreira.cursomc.model.Categoria;
-import br.com.danillotparreira.cursomc.services.CategoriaService;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,9 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.danillotparreira.cursomc.dto.CategoriaDTO;
+import br.com.danillotparreira.cursomc.model.Categoria;
+import br.com.danillotparreira.cursomc.services.CategoriaService;
+
 @RestController
 @RequestMapping(value = "/categorias", produces = "application/json")
-public class CategoriaResource {
+public class CategoriaResource implements Resource<Categoria, CategoriaDTO, Integer> {
 
   @Autowired
   private CategoriaService service;
