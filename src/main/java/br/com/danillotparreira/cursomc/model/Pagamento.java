@@ -1,8 +1,9 @@
 package br.com.danillotparreira.cursomc.model;
 
+import br.com.danillotparreira.cursomc.model.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -10,10 +11,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import br.com.danillotparreira.cursomc.model.enums.EstadoPagamento;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -35,7 +32,15 @@ public abstract class Pagamento implements Serializable {
   public Pagamento() {}
 
   public Pagamento(EstadoPagamento estadoPagamento, Pedido pedido) {
-    this.estadoPagamento = estadoPagamento.getCod();
+    this.estadoPagamento =
+      (estadoPagamento != null) ? estadoPagamento.getCod() : null;
+    this.pedido = pedido;
+  }
+
+  public Pagamento(Integer id, EstadoPagamento estadoPagamento, Pedido pedido) {
+    this.id = id;
+    this.estadoPagamento =
+      (estadoPagamento != null) ? estadoPagamento.getCod() : null;
     this.pedido = pedido;
   }
 
