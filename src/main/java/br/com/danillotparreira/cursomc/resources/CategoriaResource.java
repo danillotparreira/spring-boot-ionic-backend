@@ -26,7 +26,7 @@ import br.com.danillotparreira.cursomc.services.CategoriaService;
 
 @RestController
 @RequestMapping(value = "/categorias", produces = "application/json")
-public class CategoriaResource implements Resource<Categoria, CategoriaDTO, Integer> {
+public class CategoriaResource {
 
   @Autowired
   private CategoriaService service;
@@ -44,11 +44,19 @@ public class CategoriaResource implements Resource<Categoria, CategoriaDTO, Inte
   @GetMapping("/page")
   public ResponseEntity<Page<CategoriaDTO>> findPage(
     @RequestParam(value = "page", defaultValue = "0") Integer page,
-    @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+    @RequestParam(
+      value = "linesPerPage",
+      defaultValue = "24"
+    ) Integer linesPerPage,
     @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
     @RequestParam(value = "direction", defaultValue = "ASC") String direction
   ) {
-    Page<Categoria> list = service.findPage(page, linesPerPage, orderBy, direction.toUpperCase());
+    Page<Categoria> list = service.findPage(
+      page,
+      linesPerPage,
+      orderBy,
+      direction.toUpperCase()
+    );
     Page<CategoriaDTO> listDTO = list.map(obj -> new CategoriaDTO(obj));
     return ResponseEntity.ok(listDTO);
   }
@@ -76,8 +84,8 @@ public class CategoriaResource implements Resource<Categoria, CategoriaDTO, Inte
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Void> update(@Valid 
-    @RequestBody CategoriaDTO objDTO,
+  public ResponseEntity<Void> update(
+    @Valid @RequestBody CategoriaDTO objDTO,
     @PathVariable Integer id
   ) {
     Categoria obj = service.fromDTO(objDTO);

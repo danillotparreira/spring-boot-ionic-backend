@@ -21,15 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.danillotparreira.cursomc.dto.ClienteDTO;
+import br.com.danillotparreira.cursomc.dto.ClienteNewDTO;
 import br.com.danillotparreira.cursomc.model.Cliente;
 import br.com.danillotparreira.cursomc.services.ClienteService;
 
 @RestController
 @RequestMapping(value = "/clientes", produces = "application/json")
-public class ClienteResource implements Resource<Cliente, ClienteDTO, Integer>{
+public class ClienteResource {
 
   @Autowired
   private ClienteService service;
+
   @GetMapping
   public ResponseEntity<List<ClienteDTO>> findAll() {
     List<Cliente> list = service.findAll();
@@ -43,11 +45,19 @@ public class ClienteResource implements Resource<Cliente, ClienteDTO, Integer>{
   @GetMapping("/page")
   public ResponseEntity<Page<ClienteDTO>> findPage(
     @RequestParam(value = "page", defaultValue = "0") Integer page,
-    @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+    @RequestParam(
+      value = "linesPerPage",
+      defaultValue = "24"
+    ) Integer linesPerPage,
     @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
     @RequestParam(value = "direction", defaultValue = "ASC") String direction
   ) {
-    Page<Cliente> list = service.findPage(page, linesPerPage, orderBy, direction.toUpperCase());
+    Page<Cliente> list = service.findPage(
+      page,
+      linesPerPage,
+      orderBy,
+      direction.toUpperCase()
+    );
     Page<ClienteDTO> listDTO = list.map(obj -> new ClienteDTO(obj));
     return ResponseEntity.ok(listDTO);
   }
@@ -59,10 +69,7 @@ public class ClienteResource implements Resource<Cliente, ClienteDTO, Integer>{
   }
 
   @PostMapping
-  public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDTO) {
-    if (objDTO.getId() != null) {
-      return ResponseEntity.badRequest().build();
-    }
+  public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO) {
     Cliente obj = service.fromDTO(objDTO);
     obj = service.insert(obj);
     URI uri = ServletUriComponentsBuilder
@@ -70,13 +77,12 @@ public class ClienteResource implements Resource<Cliente, ClienteDTO, Integer>{
       .path("/{id}")
       .buildAndExpand(obj.getId())
       .toUri();
-
     return ResponseEntity.created(uri).build();
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Void> update(@Valid 
-    @RequestBody ClienteDTO objDTO,
+  public ResponseEntity<Void> update(
+    @Valid @RequestBody ClienteDTO objDTO,
     @PathVariable Integer id
   ) {
     Cliente obj = service.fromDTO(objDTO);
@@ -90,5 +96,4 @@ public class ClienteResource implements Resource<Cliente, ClienteDTO, Integer>{
     service.delete(id);
     return ResponseEntity.noContent().build();
   }
-
 }
