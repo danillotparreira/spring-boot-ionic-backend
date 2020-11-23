@@ -1,6 +1,9 @@
 package br.com.danillotparreira.cursomc.dto;
 
 import java.io.Serializable;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class ClienteNewDTO implements Serializable {
@@ -18,6 +21,8 @@ public class ClienteNewDTO implements Serializable {
   private String bairro;
   private String cep;
 
+  @NotEmpty(message="Deve adicionar pelo menos 1 telefone")
+  @NotNull(message = "Deve adicionar pelo menos 1 telefone")
   @Size(min = 1, max = 3, message = "Deve conter entre 1 a 3 telefones")
   private String[] telefones;
 
