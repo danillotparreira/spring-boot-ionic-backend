@@ -21,7 +21,6 @@ import br.com.danillotparreira.cursomc.repositories.ClienteRepository;
 import br.com.danillotparreira.cursomc.repositories.EnderecoRepository;
 import br.com.danillotparreira.cursomc.services.exceptions.DataIntegrityException;
 import br.com.danillotparreira.cursomc.services.exceptions.ObjectNotFoundException;
-import br.com.danillotparreira.cursomc.services.exceptions.TelefonException;
 
 @Service
 public class ClienteService {
@@ -112,23 +111,12 @@ public class ClienteService {
       cliente
     );
     cliente.endereco(endereco);
-    verificaSeExisteTelefone(objDTO.getTelefones());
     cliente.telefones(objDTO.getTelefones());
     return cliente;
   }
-  
+
   private Cliente updateData(Cliente obj) {
     Cliente find = this.findById(obj.getId());
     return find.nome(obj.getNome()).email(obj.getEmail());
-  }
-  
-  private void verificaSeExisteTelefone(String... telefones){
-    int quantidadeTelefone = 0;
-    for (String fone : telefones) {
-      if (fone == null || fone.trim() == "") quantidadeTelefone++;
-    }
-    if (telefones.length == quantidadeTelefone) throw new TelefonException(
-      "É necessário pelo menos 1 telefone para contato."
-    );
   }
 }

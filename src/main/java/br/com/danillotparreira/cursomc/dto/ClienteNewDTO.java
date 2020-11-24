@@ -1,30 +1,49 @@
 package br.com.danillotparreira.cursomc.dto;
 
+import br.com.danillotparreira.cursomc.services.validation.ClienteInsert;
 import java.io.Serializable;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
 
+@ClienteInsert
 public class ClienteNewDTO implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  @NotEmpty(message = "Preenchimento Obrigatório")
+  @Length(
+    min = 5,
+    max = 120,
+    message = "O tamanho deve ser entre 5 a 120 caracteres"
+  )
   private String nome;
+
+  @NotEmpty(message = "Preenchimento Obrigatório")
   private String email;
+
+  @NotEmpty(message = "Preenchimento Obrigatório")
   private String cpfOuCnpj;
+
   private Integer tipo;
 
+  @NotEmpty(message = "Preenchimento Obrigatório")
   private String logradouro;
+
   private String numero;
   private String complemento;
   private String bairro;
+
+  @NotEmpty(message = "Preenchimento Obrigatório")
   private String cep;
 
-  @NotEmpty(message="Deve adicionar pelo menos 1 telefone")
+  @NotEmpty(message = "Deve adicionar pelo menos 1 telefone")
   @NotNull(message = "Deve adicionar pelo menos 1 telefone")
   @Size(min = 1, max = 3, message = "Deve conter entre 1 a 3 telefones")
-  private String[] telefones;
+  private List<String> telefones = new ArrayList<>();
 
   private Integer cidadeId;
 
@@ -102,12 +121,16 @@ public class ClienteNewDTO implements Serializable {
     this.cep = cep;
   }
 
-  public String[] getTelefones() {
-    return telefones;
+  public List<String> getTelefones() {
+    return this.telefones;
   }
 
-  public void setTelefones(String[] telefones) {
-    this.telefones = telefones;
+  public void setTelefones(List<String> telefones) {
+    for (String telefone : telefones) {
+      if (telefone != null && !telefone.trim().equals("")) {
+        this.telefones.add(telefone);
+      }
+    }
   }
 
   public Integer getCidadeId() {
@@ -156,11 +179,6 @@ public class ClienteNewDTO implements Serializable {
 
   public ClienteNewDTO cep(String cep) {
     this.cep = cep;
-    return this;
-  }
-
-  public ClienteNewDTO telefones(String... telefones) {
-    this.telefones = telefones;
     return this;
   }
 }
