@@ -6,13 +6,19 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import br.com.danillotparreira.cursomc.dto.ClienteNewDTO;
 import br.com.danillotparreira.cursomc.model.enums.TipoCliente;
+import br.com.danillotparreira.cursomc.repositories.ClienteRepository;
 import br.com.danillotparreira.cursomc.resources.exeptions.FieldMessage;
 import br.com.danillotparreira.cursomc.services.validation.utils.BR;
 
 public class ClienteInsertValidator
   implements ConstraintValidator<ClienteInsert, ClienteNewDTO> {
+
+  @Autowired
+  public ClienteRepository repository;
 
   @Override
   public boolean isValid(
@@ -20,8 +26,12 @@ public class ClienteInsertValidator
     ConstraintValidatorContext context
   ) {
     List<FieldMessage> list = new ArrayList<>();
+
     isTelefoneValid(list, objDTO.getTelefones());
     isCpfOuCnpjValid(list, objDTO.getCpfOuCnpj(), objDTO.getTipo());
+    isEmailValid(list, objDTO.getEmail());
+
+
     for (FieldMessage e : list) {
       context.disableDefaultConstraintViolation();
       context
@@ -71,6 +81,12 @@ public class ClienteInsertValidator
           "É obrigatório o preenchimento de ao menos 1 telefone"
         )
       );
+    }
+  }
+  
+  private void isEmailValid(List<FieldMessage> list, String email){
+    if (repository.findByEmail(email) != null){
+      list.add(new FieldMessage("email", "Este email já está cadastrado"));
     }
   }
 }
