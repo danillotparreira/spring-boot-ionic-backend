@@ -15,11 +15,11 @@ import br.com.danillotparreira.cursomc.services.PedidoService;
 public class PedidoResource {
 
   @Autowired
-  private PedidoService pedidoService;
+  private PedidoService service;
 
   @GetMapping("/{id}")
   public ResponseEntity<?> findById(@PathVariable Integer id) {
-    Pedido pedido = pedidoService.findById(id);
-    return ResponseEntity.ok(pedido);
+    Pedido obj = service.findById(id);
+    return ResponseEntity.ok(obj);
   }
 }
