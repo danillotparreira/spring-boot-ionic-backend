@@ -5,16 +5,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.danillotparreira.cursomc.model.ItemPedido;
 import br.com.danillotparreira.cursomc.model.PagamentoComBoleto;
 import br.com.danillotparreira.cursomc.model.Pedido;
-import br.com.danillotparreira.cursomc.model.Produto;
 import br.com.danillotparreira.cursomc.model.enums.EstadoPagamento;
 import br.com.danillotparreira.cursomc.repositories.ItemPedidoRepository;
 import br.com.danillotparreira.cursomc.repositories.PagamentoRepository;
 import br.com.danillotparreira.cursomc.repositories.PedidoRepository;
-import br.com.danillotparreira.cursomc.repositories.ProdutoRepository;
 import br.com.danillotparreira.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -27,10 +26,10 @@ public class PedidoService {
   private BoletoService boletoService;
 
   @Autowired
-  private PagamentoRepository pagamentoRepository;
+  private ProdutoService produtoService;
 
   @Autowired
-  private ProdutoRepository produtoRepository;
+  private PagamentoRepository pagamentoRepository;
 
   @Autowired
   private ItemPedidoRepository itemPedidoRepository;
@@ -48,7 +47,9 @@ public class PedidoService {
     );
   }
 
+  @Transactional
   public Pedido insert(Pedido obj) {
+    obj.setId(null);
     obj.setInstante(new Date());
     obj.getPagamento().setEstadoPagamento(EstadoPagamento.PENDENTE);
     obj.getPagamento().setPedido(obj);
@@ -64,9 +65,8 @@ public class PedidoService {
 
     for (ItemPedido item : obj.getItens()) {
       item.setDesconto(0.0);
-      Optional<Produto> produto = produtoRepository.findById(item.getProduto().getId());
       item.setPreco(
-        produto.get().getPreco()
+        produtoService.findById(item.getProduto().getId()).getPreco()
       );
       item.setPedido(obj);
     }
