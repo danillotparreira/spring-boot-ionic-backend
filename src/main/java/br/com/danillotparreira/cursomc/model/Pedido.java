@@ -47,14 +47,14 @@ public class Pedido implements Serializable {
 
   public Pedido() {}
 
-  public Pedido(
-    Date instante,
-    Cliente cliente,
-    Endereco enderecoDeEntrega
-  ) {
+  public Pedido(Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
     this.instante = instante;
     this.cliente = cliente;
     this.enderecoDeEntrega = enderecoDeEntrega;
+  }
+
+  public double getValorTotal() {
+    return this.itens.stream().mapToDouble(item -> item.getSubTotal()).sum();
   }
 
   public Integer getId() {
@@ -96,7 +96,6 @@ public class Pedido implements Serializable {
   public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
     this.enderecoDeEntrega = enderecoDeEntrega;
   }
-
 
   public Set<ItemPedido> getItens() {
     return this.itens;
