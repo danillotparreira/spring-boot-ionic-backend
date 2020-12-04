@@ -1,3 +1,7 @@
+Projeto sendo executado no seguinte diretório do heroku.
+https://spring-app-ionic.herokuapp.com/
+
+
 # cursomc
 Projeto realizado através do curso da udemy com o professor Nelio Alves
 
@@ -14,7 +18,7 @@ ENDPOINT | MÉTODO | DESCRIÇÃO | PARÂMETROS
 /categorias/{id} | DELETE | Remove uma categoria já existente com base no ID | ---
 
 ### Exemplo de busca categoria por página completo
-URI /categoria/page?page=0&linesPerPage=4&orderBy=id&direction=DESC
+URI https://spring-app-ionic.herokuapp.com/categorias/page?page=0&linesPerPage=4&orderBy=id&direction=DESC
 Método GET
 
 ## Recursos de Cliente 
@@ -27,7 +31,7 @@ ENDPOINT | MÉTODO | DESCRIÇÃO | PARÂMETROS
 /clientes/{id} | DELETE | Remove um cliente que não tenha pedidos vinculados. | ---
 
 ### Exemplo de adicionar novo cliente
-URI /clientes
+URI https://spring-app-ionic.herokuapp.com/clientes
 MÉTODO POST
 ```
 {
@@ -45,7 +49,7 @@ MÉTODO POST
 }
 ```
 
-URI /clientes/1
+URI https://spring-app-ionic.herokuapp.com/clientes/1
 MÉTODO PUT
 ```
 {
@@ -57,8 +61,8 @@ MÉTODO PUT
 ## Recursos de Pedidos 
 ENDPOINT | MÉTODO | DESCRIÇÃO | PARÂMETROS
 ---------|--------|-----------|-----------
-/pedidos/{id} | GET | Busca o pedido pelo id | ---
-/pedidos | POST | Adiciona um novo pedido
+https://spring-app-ionic.herokuapp.com/pedidos/{id} | GET | Busca o pedido pelo id | ---
+https://spring-app-ionic.herokuapp.com/pedidos | POST | Adiciona um novo pedido
 
 ### Exemplo de adicionar novo pedido
 URI /pedidos
@@ -94,7 +98,7 @@ ENDPOINT | MÉTODO | DESCRIÇÃO | PARÂMETROS
 
 
 ### Exemplo de busca produtos por página completo
-/categoria/page?page=0&linesPerPage=4&orderBy=id&direction=DESC&nome=t&categorias=1,4
+https://spring-app-ionic.herokuapp.com/produtos?page=0&linesPerPage=4&orderBy=id&direction=DESC&nome=t&categorias=1,4
 
 
 ## Diagrama UML do projeto.
