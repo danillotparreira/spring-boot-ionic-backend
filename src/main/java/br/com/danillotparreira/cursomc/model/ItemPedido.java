@@ -1,10 +1,14 @@
 package br.com.danillotparreira.cursomc.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ItemPedido implements Serializable {
@@ -19,15 +23,10 @@ public class ItemPedido implements Serializable {
   private Integer quantidade;
   private Double preco;
 
-  public ItemPedido() {}
+  public ItemPedido() {
+  }
 
-  public ItemPedido(
-    Pedido pedido,
-    Produto produto,
-    Double desconto,
-    Integer quantidade,
-    Double preco
-  ) {
+  public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
     this.id.pedido(pedido).produto(produto);
     this.desconto = desconto;
     this.quantidade = quantidade;
@@ -101,7 +100,8 @@ public class ItemPedido implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (o == this) return true;
+    if (o == this)
+      return true;
     if (!(o instanceof ItemPedido)) {
       return false;
     }
@@ -116,23 +116,12 @@ public class ItemPedido implements Serializable {
 
   @Override
   public String toString() {
-    return (
-      "{" +
-      " Produto='" +
-      getProduto() +
-      " Pedido='" +
-      getPedido() +
-      "'" +
-      ", desconto='" +
-      getDesconto() +
-      "'" +
-      ", quantidade='" +
-      getQuantidade() +
-      "'" +
-      ", preco='" +
-      getPreco() +
-      "'" +
-      "}"
-    );
+    NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+    StringBuilder builder = new StringBuilder();
+    builder.append(getProduto().getNome());
+    builder.append(", Qtd: ").append(getQuantidade());
+    builder.append(", Preço unitário: ").append(nf.format(getPreco()));
+    builder.append(", Subtotal: ").append(nf.format(getSubTotal())).append("\n");
+    return builder.toString();
   }
 }

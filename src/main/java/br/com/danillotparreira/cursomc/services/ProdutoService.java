@@ -26,31 +26,13 @@ public class ProdutoService {
 
   public Produto findById(Integer id) {
     Optional<Produto> ProdutoOptional = repository.findById(id);
-    return ProdutoOptional.orElseThrow(
-      () ->
-        new ObjectNotFoundException(
-          "Objeto não encontrado! Id " +
-          id +
-          ", Tipo: " +
-          Produto.class.getSimpleName()
-        )
-    );
+    return ProdutoOptional.orElseThrow(() -> new ObjectNotFoundException(
+        "Objeto não encontrado! Id " + id + ", Tipo: " + Produto.class.getSimpleName()));
   }
 
-  public Page<Produto> search(
-    String nome,
-    List<Integer> ids,
-    Integer page,
-    Integer linesPerPage,
-    String orderBy,
-    String direction
-  ) {
-    PageRequest pageRequest = PageRequest.of(
-      page,
-      linesPerPage,
-      Direction.valueOf(direction),
-      orderBy
-    );
+  public Page<Produto> search(String nome, List<Integer> ids, Integer page, Integer linesPerPage, String orderBy,
+      String direction) {
+    PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
     List<Categoria> categorias = categoriaRepository.findAllById(ids);
     return repository.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);
   }

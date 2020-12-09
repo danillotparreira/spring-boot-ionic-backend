@@ -33,7 +33,8 @@ import br.com.danillotparreira.cursomc.repositories.ProdutoRepository;
 @Service
 public class DBService {
 
-  // Configuração da operação de instanciação, com a implementação do CommandLineRunner
+  // Configuração da operação de instanciação, com a implementação do
+  // CommandLineRunner
   @Autowired
   private CategoriaRepository categoriaRepository;
 
@@ -105,12 +106,8 @@ public class DBService {
     p10.getCategorias().addAll(Arrays.asList(cat6));
     p11.getCategorias().addAll(Arrays.asList(cat7));
 
-    categoriaRepository.saveAll(
-      Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10)
-    );
-    produtoRepository.saveAll(
-      Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)
-    );
+    categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10));
+    produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 
     Estado est1 = new Estado("Minas Gerais");
     Estado est2 = new Estado("São Paulo");
@@ -125,32 +122,11 @@ public class DBService {
     estadoRepository.saveAll(Arrays.asList(est1, est2));
     cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-    Cliente cli1 = new Cliente(
-      "Maria Silva",
-      "maria@gmail.com",
-      "36378912377",
-      TipoCliente.PESSOA_FISICA
-    );
+    Cliente cli1 = new Cliente("Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOA_FISICA);
     cli1.telefones("27363323", "98838393");
 
-    Endereco e1 = new Endereco(
-      "Rua Flores",
-      "300",
-      "Apt 303",
-      "Jardim",
-      "38220834",
-      c1,
-      cli1
-    );
-    Endereco e2 = new Endereco(
-      "Avenida Matos",
-      "105",
-      "Sala 800",
-      "Centro",
-      "38777012",
-      c2,
-      cli1
-    );
+    Endereco e1 = new Endereco("Rua Flores", "300", "Apt 303", "Jardim", "38220834", c1, cli1);
+    Endereco e2 = new Endereco("Avenida Matos", "105", "Sala 800", "Centro", "38777012", c2, cli1);
     cli1.enderecos(e1, e2);
 
     clienteRepository.save(cli1);
@@ -163,12 +139,7 @@ public class DBService {
     ped1.pagamento(pagto1);
 
     Pedido ped2 = new Pedido(sdf.parse("10/10/2020 19:35"), cli1, e2);
-    Pagamento pagto2 = new PagamentoComBoleto(
-      EstadoPagamento.PENDENTE,
-      ped2,
-      sdf.parse("20/10/2020 00:00"),
-      null
-    );
+    Pagamento pagto2 = new PagamentoComBoleto(EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2020 00:00"), null);
     ped2.pagamento(pagto2);
 
     cli1.pedidos(ped1, ped2);

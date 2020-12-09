@@ -1,9 +1,12 @@
 package br.com.danillotparreira.cursomc.model;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -45,7 +48,8 @@ public class Pedido implements Serializable {
   @OneToMany(mappedBy = "id.pedido")
   private Set<ItemPedido> itens = new HashSet<>();
 
-  public Pedido() {}
+  public Pedido() {
+  }
 
   public Pedido(Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
     this.instante = instante;
@@ -142,7 +146,8 @@ public class Pedido implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (o == this) return true;
+    if (o == this)
+      return true;
     if (!(o instanceof Pedido)) {
       return false;
     }
@@ -157,24 +162,18 @@ public class Pedido implements Serializable {
 
   @Override
   public String toString() {
-    return (
-      "{" +
-      " id='" +
-      getId() +
-      "'" +
-      ", instante='" +
-      getInstante() +
-      "'" +
-      ", pagamento='" +
-      getPagamento() +
-      "'" +
-      ", cliente='" +
-      getCliente() +
-      "'" +
-      ", enderecoDeEntrega='" +
-      getEnderecoDeEntrega() +
-      "'" +
-      "}"
-    );
+    NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+    StringBuilder builder = new StringBuilder();
+    builder.append("Pedido número: ").append(getId());
+    builder.append(", Instante: ").append(sdf.format(getInstante()));
+    builder.append(", Cliente: ").append(getCliente().getNome());
+    builder.append(", Situação do Pagamento: ").append(getPagamento().getEstadoPagamento().getDescricao());
+    builder.append("\nDetalhes:\n");
+    for (ItemPedido itemPedido : itens) {
+      builder.append(itemPedido.toString());
+    }
+    builder.append("Valor Total: ").append(nf.format(getValorTotal()));
+    return builder.toString();
   }
 }

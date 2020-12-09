@@ -42,7 +42,7 @@ public class Produto implements Serializable {
 
   @JsonIgnore
   @OneToMany(mappedBy = "id.produto")
-  private Set<ItemPedido> itens = new HashSet();
+  private Set<ItemPedido> itens = new HashSet<>();
 
   public Produto() {}
 
